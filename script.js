@@ -1,6 +1,8 @@
 const colorPalleteContainer = document.getElementById('color-palette');
 const pixelBoardContainer = document.getElementById('pixel-board');
 
+const COLOR_SELECTED = 'color selected';
+
 const boardConfig = {
   width: 200,
   height: 200,
@@ -9,9 +11,8 @@ const boardConfig = {
 };
 
 function removeSelectedColor() {
-  console.log('clicado');
   for (let index = 0; index < colorPalleteContainer.children.length; index += 1) {
-    if (colorPalleteContainer.children[index].className === 'color selected') {
+    if (colorPalleteContainer.children[index].className === COLOR_SELECTED) {
       colorPalleteContainer.children[index].className = 'color';
     }
   }
@@ -26,6 +27,17 @@ function selectColor(event) {
 }
 
 colorPalleteContainer.addEventListener('click', selectColor);
+
+function dye(event) {
+  const pixelStyle = event.target.style;
+  for (let index = 0; index < colorPalleteContainer.children.length; index += 1) {
+    if (colorPalleteContainer.children[index].className === COLOR_SELECTED) {
+      pixelStyle.backgroundColor = colorPalleteContainer.children[index].style.backgroundColor;
+    }
+  }
+}
+
+pixelBoardContainer.addEventListener('click', dye);
 
 function calcMMC(number1, number2) {
   const higherNumber = number1 > number2 ? number1 : number2;
@@ -55,7 +67,7 @@ function inicializaColorPalette() {
 
   for (let index = 0; index < backgroundsColors.length; index += 1) {
     const color = document.createElement('div');
-    color.className = index !== 0 ? 'color' : 'color selected';
+    color.className = index !== 0 ? 'color' : COLOR_SELECTED;
     color.style.backgroundColor = backgroundsColors[index];
     color.style.border = '1px solid #000000';
     colorPalleteContainer.appendChild(color);
