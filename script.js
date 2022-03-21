@@ -1,5 +1,6 @@
 const colorPalleteContainer = document.getElementById('color-palette');
 const pixelBoardContainer = document.getElementById('pixel-board');
+const clearBoardButton = document.getElementById('clear-board');
 
 const COLOR_SELECTED = 'color selected';
 
@@ -38,6 +39,12 @@ function dye(event) {
 }
 
 pixelBoardContainer.addEventListener('click', dye);
+
+clearBoardButton.addEventListener('click', () => {
+  for (let index = 0; index < pixelBoardContainer.children.length; index += 1) {
+    pixelBoardContainer.children[index].style.backgroundColor = '#FFFFFF';
+  }
+});
 
 function calcMMC(number1, number2) {
   const higherNumber = number1 > number2 ? number1 : number2;
