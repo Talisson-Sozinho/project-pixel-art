@@ -2,10 +2,10 @@ const colorPalleteContainer = document.getElementById('color-palette');
 const pixelBoardContainer = document.getElementById('pixel-board');
 
 const boardConfig = {
-  width: 300,
-  height: 300,
+  width: 200,
+  height: 200,
   arrayEdgePixel: [],
-  scale: 4,
+  scale: 3,
 };
 
 function calcMMC(number1, number2) {
