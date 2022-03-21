@@ -8,6 +8,25 @@ const boardConfig = {
   scale: 3,
 };
 
+function removeSelectedColor() {
+  console.log('clicado');
+  for (let index = 0; index < colorPalleteContainer.children.length; index += 1) {
+    if (colorPalleteContainer.children[index].className === 'color selected') {
+      colorPalleteContainer.children[index].className = 'color';
+    }
+  }
+}
+
+function selectColor(event) {
+  const selectedElement = event.target;
+  if (selectedElement.className === 'color') {
+    removeSelectedColor();
+    selectedElement.classList.add('selected');
+  }
+}
+
+colorPalleteContainer.addEventListener('click', selectColor);
+
 function calcMMC(number1, number2) {
   const higherNumber = number1 > number2 ? number1 : number2;
   for (let index = higherNumber; index > 0; index -= 1) {
