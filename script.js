@@ -11,6 +11,17 @@ const boardConfig = {
   height: 200,
   scale: 5,
 };
+const backgroundsColors = ['#000000'];
+
+function generateColor() {
+  for (let index = 0; index < 3; index += 1) {
+    const colorR = Math.random() * 255;
+    const colorG = Math.random() * 255;
+    const colorB = Math.random() * 255;
+    backgroundsColors.push(`rgb(${colorR},${colorG},${colorB})`);
+  }
+}
+generateColor();
 
 function removeSelectedColor() {
   for (let index = 0; index < colorPalleteContainer.children.length; index += 1) {
@@ -50,8 +61,6 @@ function clearBoard() {
 clearBoardButton.addEventListener('click', clearBoard);
 
 function inicializaColorPalette() {
-  const backgroundsColors = ['#000000', '#FF0000', '#00FF00', '#0000FF'];
-
   for (let index = 0; index < backgroundsColors.length; index += 1) {
     const color = document.createElement('div');
     color.className = index !== 0 ? 'color' : COLOR_SELECTED;
