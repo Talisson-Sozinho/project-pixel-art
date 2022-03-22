@@ -6,70 +6,32 @@ const boardScaleSize = document.getElementById('board-size');
 
 const COLOR_SELECTED = 'color selected';
 
+/* Objeto de config */
 const boardConfig = {
   width: 200,
   height: 200,
   scale: 5,
+  backgroundsColors: ['#000000'],
 };
-const backgroundsColors = ['#000000'];
 
 function generateColor() {
   for (let index = 0; index < 3; index += 1) {
     const colorR = Math.random() * 255;
     const colorG = Math.random() * 255;
     const colorB = Math.random() * 255;
-    backgroundsColors.push(`rgb(${colorR},${colorG},${colorB})`);
+    boardConfig.backgroundsColors.push(`rgb(${colorR},${colorG},${colorB})`);
   }
 }
-generateColor();
-
-function removeSelectedColor() {
-  for (let index = 0; index < colorPalleteContainer.children.length; index += 1) {
-    if (colorPalleteContainer.children[index].className === COLOR_SELECTED) {
-      colorPalleteContainer.children[index].className = 'color';
-    }
-  }
-}
-
-function selectColor(event) {
-  const selectedElement = event.target;
-  if (selectedElement.className === 'color') {
-    removeSelectedColor();
-    selectedElement.classList.add('selected');
-  }
-}
-
-colorPalleteContainer.addEventListener('click', selectColor);
-
-function dye(event) {
-  const pixelStyle = event.target.style;
-  for (let index = 0; index < colorPalleteContainer.children.length; index += 1) {
-    if (colorPalleteContainer.children[index].className === COLOR_SELECTED) {
-      pixelStyle.backgroundColor = colorPalleteContainer.children[index].style.backgroundColor;
-    }
-  }
-}
-
-pixelBoardContainer.addEventListener('click', dye);
-
-function clearBoard() {
-  for (let index = 0; index < pixelBoardContainer.children.length; index += 1) {
-    pixelBoardContainer.children[index].style.backgroundColor = '#FFFFFF';
-  }
-}
-
-clearBoardButton.addEventListener('click', clearBoard);
 
 function inicializaColorPalette() {
-  for (let index = 0; index < backgroundsColors.length; index += 1) {
+  for (let index = 0; index < boardConfig.backgroundsColors.length; index += 1) {
     const color = document.createElement('div');
     color.className = index !== 0 ? 'color' : COLOR_SELECTED;
-    color.style.backgroundColor = backgroundsColors[index];
+    color.style.backgroundColor = boardConfig.backgroundsColors[index];
     color.style.border = '1px solid #000000';
     colorPalleteContainer.appendChild(color);
   }
 }
-inicializaColorPalette();
 
 function inicializaPixelBoard() {
   const quantityOfPixel = boardConfig.scale ** 2;
@@ -88,7 +50,37 @@ function inicializaPixelBoard() {
     pixelBoardContainer.appendChild(pixel);
   }
 }
-inicializaPixelBoard();
+
+function removeSelectedClassColor() {
+  for (let index = 0; index < colorPalleteContainer.children.length; index += 1) {
+    if (colorPalleteContainer.children[index].className === COLOR_SELECTED) {
+      colorPalleteContainer.children[index].className = 'color';
+    }
+  }
+}
+
+function selectColor(event) {
+  const selectedElement = event.target;
+  if (selectedElement.className === 'color') {
+    removeSelectedClassColor();
+    selectedElement.classList.add('selected');
+  }
+}
+
+function dye(event) {
+  const pixelStyle = event.target.style;
+  for (let index = 0; index < colorPalleteContainer.children.length; index += 1) {
+    if (colorPalleteContainer.children[index].className === COLOR_SELECTED) {
+      pixelStyle.backgroundColor = colorPalleteContainer.children[index].style.backgroundColor;
+    }
+  }
+}
+
+function clearBoard() {
+  for (let index = 0; index < pixelBoardContainer.children.length; index += 1) {
+    pixelBoardContainer.children[index].style.backgroundColor = '#FFFFFF';
+  }
+}
 
 function generateNewBoard() {
   if (!boardScaleSize.value) {
@@ -105,4 +97,18 @@ function generateNewBoard() {
   inicializaPixelBoard();
 }
 
-generateBoardButton.addEventListener('click', generateNewBoard);
+function addEventsListener() {
+  colorPalleteContainer.addEventListener('click', selectColor);
+  pixelBoardContainer.addEventListener('click', dye);
+  clearBoardButton.addEventListener('click', clearBoard);
+  generateBoardButton.addEventListener('click', generateNewBoard);
+}
+
+function firstLoad() {
+  generateColor();
+  inicializaColorPalette();
+  inicializaPixelBoard();
+  addEventsListener();
+}
+
+firstLoad();
